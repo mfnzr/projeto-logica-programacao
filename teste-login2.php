@@ -1,5 +1,7 @@
 <?php
-//login completo com o loop de repetição e função deslogar 
+//login completo com o loop de repetição
+
+//falta a opção deslogar
 
 
 //opções
@@ -7,11 +9,11 @@ echo "ATENÇÃO: Primeiro registre-se antes de fazer o login! \n";
 $opcao = readline("1 - logar\n2 - registrar\n");
 
 //variáveis globais:
-global $usuario, $password, $regUsuario, $regPassword, $registros, $usuarioLogado;
+global $usuario, $password, $regUsuario, $regPassword, $registros, $logado;
 
 
 $registros = [];
-$usuarioLogado = [];
+$logado = login();
 
 if ($opcao == 1) {
     login();
@@ -45,7 +47,6 @@ function login()
 
             if ($registros[$usuario] === $password) {
                 echo "Você está logado! \n";
-                deslogar();
                 break;
             } else {
                 echo "Senha incorreta. Tente novamente. \n";
@@ -53,21 +54,6 @@ function login()
         } else {
             echo "Usuário não encontrado. Registre-se. \n";
             registro();
-        }
-    }
-}
-
-function deslogar() {
-    global $usuarioLogado;
-
-    if($usuarioLogado = true) {
-        $opcaoDeslogar = readline("Digite 1 para sair do sistema: \n");
-
-        if ($opcaoDeslogar == 1) {
-            echo "Você saiu do sistema! \n";
-    
-        } else {
-            echo "Não é uma opção válida \n";
         }
     }
 }
