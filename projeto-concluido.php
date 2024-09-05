@@ -42,8 +42,10 @@ if ($opcao == 1) {
 } elseif ($opcao == 2) {
     registro();
     login();
-} else {
+} elseif ($opcao != 1 || $opcao != 2) {
     echo "Escolha uma opção válida! \n";
+} else {
+    login();
 }
 
 
@@ -63,6 +65,7 @@ function historico() {
 
     foreach ($logs as $log);
     print_r($logs);
+    menu();
 }
 
 
