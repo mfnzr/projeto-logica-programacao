@@ -3,7 +3,7 @@
 
 //opções
 echo "ATENÇÃO: \nPrimeiro registre-se antes de fazer o login! \n";
-$opcao = readline("1 - logar\n2 - registrar\n");
+$opcao = readline("1- logar \n2- registrar \n");
 
 //variáveis globais:
 $usuario = "";
@@ -73,24 +73,20 @@ function login()
     }
 }
 
-function deslogar()
-{
-    global $usuarioLogado;
-    if ($usuarioLogado = true) {
-        echo "Até mais! \n";
-    }
-}
+
 
 function menu()
 {
     global $usuarioLogado, $opcoesMenu;
 
     if ($usuarioLogado = true) {
-        $opcoesMenu = readline("Ecolha 1 opção:\n 1- Fazer uma venda,\n 2- Sair do sistema\n");
+        $opcoesMenu = readline("Ecolha 1 opção:\n 1- Fazer uma venda,\n 2- Trocar de usuário, \n 3- Sair do sistema \n ");
 
         if ($opcoesMenu == 1) {
             venda();
-        } else if ($opcoesMenu == 2) {
+        }elseif ($opcoesMenu == 2){
+            login();
+        }else if ($opcoesMenu == 3) {
             deslogar();
         } else {
             echo "Escolha uma opção válida!\n";
@@ -114,14 +110,13 @@ function venda()
 
     
     while (true) {
-        $novaVenda = readline("Deseja fazer uma nova venda?\n 1-sim\n 2-não\n");
+        $novaVenda = readline("Deseja fazer uma nova venda?\n 1-sim\n 2-não \n");
 
         if ($novaVenda == 1) {
             venda(); //chama novamente para uma nova venda
             return; // garante que a função termine após uma nova venda
 
         } elseif ($novaVenda == 2) {
-
             foreach ($vendas as $produto => $valor) {
                 $total += $valor;
             }
@@ -131,6 +126,14 @@ function venda()
         } else {
             echo "não é uma opção valida\n";
         }
+    }
+}
+
+function deslogar()
+{
+    global $usuarioLogado;
+    if ($usuarioLogado = true) {
+        echo "Até mais! \n";
     }
 }
 
