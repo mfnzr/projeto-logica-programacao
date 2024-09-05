@@ -17,11 +17,16 @@ $valor = 0;
 $novaVenda = 0;
 $total = 0;
 
+$logs = [];
+$logUsuarios = [];
 $vendas = [];
 $usuarioLogado = [];
 $registros = [
     "adm" => "123"
 ];
+
+
+
 
 if ($opcao == 1) {
     login();
@@ -38,6 +43,8 @@ if ($opcao == 1) {
 function registro()
 {
     global $registros;
+    global $logUsuarios; 
+
     $regUsuario = readline("Digite um nome para registrar: ");
     $regPassword = readline("Digite uma senha: ");
     
@@ -52,11 +59,29 @@ function registro()
     
     $registros[$regUsuario] = $regPassword;
     print_r($registros);
+
+
+    foreach ($logUsuarios as $user) {
+        if ($user['nomeUsuario'] === $regUsuario) {
+            echo "Usuário já registrado\n";
+            return;
+        }
+    }
+
+    $log_usuarios[] = ['nomeUsuario' => $regUsuario, 'senha' => $regPassword];
+    echo "Usuário registrado com sucesso\n";
+
+    $data = date('d/m/y H:i:s');
+    addLog("o $regUsuario foi cadastrado as $data\n ");
+
+    print_r($log_usuarios);
+
 }
 
 function login()
 {
     global $registros, $usuarioLogado;
+    global $log_usuarios, $usuario_logado; 
 
     while (true) {
         $usuario = readline("Digite seu nome de usuário: ");
@@ -82,8 +107,15 @@ function login()
             registro();
         }
     }
-}
 
+    foreach ($log_usuarios as $user) {
+        if ($user['nomeUsuario'] === $usuario && $user['senha'] === $password) {
+            $usuario_logado = $usuario;
+            echo "Login bem-sucedido\n";
+            return true;
+        } 
+}
+}
 
 
 function menu()
@@ -91,7 +123,7 @@ function menu()
     global $usuarioLogado, $opcoesMenu;
 
     if ($usuarioLogado == true) {
-        $opcoesMenu = readline("Ecolha 1 opção:\n 1- Fazer uma venda,\n 2- Trocar de usuário, \n 3- Sair do sistema \n ");
+        $opcoesMenu = readline("Ecolha 1 opção:\n 1- Fazer uma venda,\n 2- Trocar de usuário, \n 3- Sair do sistema \n 4- Entrar no histórico \n");
 
         switch ($opcoesMenu) {
             case ($opcoesMenu == 1):
@@ -101,6 +133,8 @@ function menu()
             case ($opcoesMenu == 3):
                 deslogar();
                 break;
+            case ($opcoesMenu == 4);
+                printHistorico();
             default:
                 echo "Escolha uma opção válida!\n";
                 break;
@@ -112,11 +146,18 @@ function menu()
 function venda()
 {
     global $vendas, $novaVenda;
+    global $log_vendas;
     $total = 0;
 
     $produto = readline("Digite o nome do produto: \n");
     $valor = readline("Digite o valor do produto: \n");
     $valor = (float) $valor;
+
+    $log_vendas[] = ['nomeProduto' => $produto,'preco'=> $valor];
+
+    $date = date('d/m/y H:i:s');
+
+    addLog("o produto $produto com o preço $valor foi cadastrado com sucesso as $date!\n ");
 
     $vendas[$produto] = $valor;
     print_r($vendas);
@@ -153,3 +194,20 @@ function deslogar()
     }
 }
 
+
+//FUNÇÕES DO LOG
+function addLog ($log) {
+    global $logs;
+
+    $logs[] = $log;
+
+}
+
+function printHistorico () {
+    global $logs;
+
+    foreach($logs as $historico) {
+        print_r($historico);
+    }
+
+}

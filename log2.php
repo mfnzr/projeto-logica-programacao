@@ -17,11 +17,15 @@ $valor = 0;
 $novaVenda = 0;
 $total = 0;
 
+$logUsuarios = [];
+$logRegistros = [];
 $vendas = [];
 $usuarioLogado = [];
+
 $registros = [
     "adm" => "123"
 ];
+
 
 if ($opcao == 1) {
     login();
@@ -32,6 +36,22 @@ if ($opcao == 1) {
     echo "Escolha uma opção válida! \n";
 }
 
+
+
+function addLog ($log){
+    global $logs;
+
+    $logs[] = $log;
+
+}
+
+function historico() {
+    global $logs;
+
+    foreach ($logs as $log);
+    print_r($logs);
+
+}
 
 
 //funções
@@ -51,6 +71,9 @@ function registro()
     }
     
     $registros[$regUsuario] = $regPassword;
+    $data = date('d/m/Y H:i:s');
+    addLog("Usuário $regUsuario registrado no dia $data");
+
     print_r($registros);
 }
 
@@ -91,7 +114,7 @@ function menu()
     global $usuarioLogado, $opcoesMenu;
 
     if ($usuarioLogado == true) {
-        $opcoesMenu = readline("Ecolha 1 opção:\n 1- Fazer uma venda,\n 2- Trocar de usuário, \n 3- Sair do sistema \n ");
+        $opcoesMenu = readline("Ecolha 1 opção:\n 1- Fazer uma venda,\n 2- Trocar de usuário, \n 3- Sair do sistema \n, 4- Histórico \n");
 
         switch ($opcoesMenu) {
             case ($opcoesMenu == 1):
@@ -100,6 +123,8 @@ function menu()
                 login();
             case ($opcoesMenu == 3):
                 deslogar();
+            case ($opcoesMenu == 4);
+                historico();
                 break;
             default:
                 echo "Escolha uma opção válida!\n";
@@ -111,12 +136,15 @@ function menu()
 
 function venda()
 {
-    global $vendas, $novaVenda;
+    global $vendas, $novaVenda, $regUsuario;
     $total = 0;
 
     $produto = readline("Digite o nome do produto: \n");
     $valor = readline("Digite o valor do produto: \n");
     $valor = (float) $valor;
+
+    $data = date('d/m/Y H:i:s');
+    addLog("o produto $produto com o preço $valor foi cadastrado com sucesso as $data !\n ");
 
     $vendas[$produto] = $valor;
     print_r($vendas);
@@ -152,4 +180,6 @@ function deslogar()
         echo "Até mais! \n";
     }
 }
+
+
 

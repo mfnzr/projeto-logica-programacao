@@ -98,7 +98,8 @@ function menu()
             login();
         }else if ($opcoesMenu == 3) {
             deslogar();
-        } else {
+        }
+        if ($opcoesMenu != 1 || $opcoesMenu != 2 || $opcoesMenu !=3){
             echo "Escolha uma opção válida!\n";
             menu();
         }

@@ -91,7 +91,7 @@ function menu()
     global $usuarioLogado, $opcoesMenu;
 
     if ($usuarioLogado == true) {
-        $opcoesMenu = readline("Ecolha 1 opção:\n 1- Fazer uma venda,\n 2- Trocar de usuário, \n 3- Sair do sistema \n ");
+        $opcoesMenu = readline("Escolha 1 opção:\n 1- Fazer uma venda,\n 2- Trocar de usuário, \n 3- Sair do sistema \n ");
 
         switch ($opcoesMenu) {
             case ($opcoesMenu == 1):
@@ -136,20 +136,23 @@ function venda()
             }
             echo "total: R$" . $total . "\n";
             break;
+            
         } else {
             echo "não é uma opção valida\n";
         }
     }
 
     menu();
+
 }
 
 
 function deslogar()
 {
     global $usuarioLogado;
-    if ($usuarioLogado = true) {
+    
+    if ($usuarioLogado) {
+        $usuarioLogado = null;
         echo "Até mais! \n";
     }
 }
-
