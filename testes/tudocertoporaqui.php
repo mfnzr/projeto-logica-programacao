@@ -1,0 +1,142 @@
+<?php
+//login completo, menu e função de vendas implementado
+//verificar com o moacir sobre como fazer a troca de usuário dentro do sistema
+
+
+//opções
+echo "ATENÇÃO: \nPrimeiro registre-se antes de fazer o login! \n";
+$opcao = readline("1 - logar\n2 - registrar\n");
+
+//variáveis globais:
+$usuario = "";
+$password = "";
+$regUsuario = "";
+$regPassword = "";
+$usuarioLogado = "";
+$opcoesMenu = "";
+$produto = "";
+$valor = 0;
+$novaVenda = 0;
+$total = 0;
+
+$vendas = [];
+$usuarioLogado = [];
+$registros = [
+    "adm" => "123"
+];
+
+if ($opcao == 1) {
+    login();
+} elseif ($opcao == 2) {
+    registro();
+    login();
+} else {
+    echo "Escolha uma opção válida! \n";
+}
+
+
+
+//funções
+function registro()
+{
+    global $registros;
+    $regUsuario = readline("Digite um nome para registrar: ");
+    $regPassword = readline("Digite uma senha: ");
+    $registros[$regUsuario] = $regPassword;
+    print_r($registros);
+}
+
+function login()
+{
+    global $registros;
+
+    while (true) {
+        $usuario = readline("Digite seu nome de usuário: ");
+        $password = readline("Digite sua senha: ");
+
+
+
+        //verificar com o moacir sobre isso daqui que tava dando erro dentro do array_key em $registros
+        if (!is_array($registros)) {
+            echo "Erro: registros não definidos corretamente.\n";
+            break;
+        }
+
+        if (array_key_exists($usuario, $registros)) {
+
+            if ($registros[$usuario] === $password) {
+                echo "Você está logado! \n";
+                menu();
+                break;
+            } else {
+                echo "Senha incorreta. Tente novamente. \n";
+            }
+        } else {
+            echo "Usuário não encontrado. Registre-se. \n";
+            registro();
+        }
+    }
+}
+
+function deslogar()
+{
+    global $usuarioLogado;
+    if ($usuarioLogado = true) {
+        echo "Até mais! \n";
+    }
+}
+
+function menu()
+{
+    global $usuarioLogado, $opcoesMenu;
+
+    if ($usuarioLogado = true) {
+        $opcoesMenu = readline("Ecolha 1 opção:\n 1- Fazer uma venda,\n 2- Sair do sistema\n");
+
+        if ($opcoesMenu == 1) {
+            venda();
+        } else if ($opcoesMenu == 2) {
+            deslogar();
+        } else {
+            echo "Escolha uma opção válida!\n";
+            menu();
+        }
+    }
+}
+
+
+function venda()
+{
+    global $vendas, $novaVenda;
+    $total = 0;
+
+    $produto = readline("Digite o nome do produto: \n");
+    $valor = readline("Digite o valor do produto: \n");
+    $valor = (float) $valor;
+
+    $vendas[$produto] = $valor;
+    print_r($vendas);
+
+    
+    while (true) {
+        $novaVenda = readline("Deseja fazer uma nova venda?\n 1-sim\n 2-não\n");
+
+        if ($novaVenda == 1) {
+            venda(); //chama novamente para uma nova venda
+            return; // garante que a função termine após uma nova venda
+
+        } elseif ($novaVenda == 2) {
+
+            foreach ($vendas as $produto => $valor) {
+                $total += $valor;
+            }
+
+            echo "total: R$" . $total . "\n";
+            break;
+        } else {
+            echo "não é uma opção valida\n";
+        }
+    }
+}
+
+menu();
