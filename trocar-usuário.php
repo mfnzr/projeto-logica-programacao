@@ -12,7 +12,6 @@ $regUsuario = "";
 $regPassword = "";
 $registros = "";
 $usuarioLogado = "";
-$venda = "";
 
 
 $registros = [];
